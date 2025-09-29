@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Parking Lot License Plate Checker</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    input, button { font-size: 1rem; padding: 0.5rem; margin-right: 0.5rem; }
+    #result { margin-top: 1rem; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Parking Lot License Plate Checker</h1>
+  <input type="text" id="licenseInput" placeholder="Enter license plate" />
+  <button onclick="checkLicense()">Check</button>
+  <div id="result"></div>
+
+  <script>
+    const parkingData = [
+      { license: "W69 RKN", name: "Natalie Lebovitz" },
+      { license: "KBU6399", name: "Emma Jonisch" },
+      { license: "KZU1296", name: "Abigail Etra" },
+      { license: "47BMBP", name: "Laura Kirkpatrick" },
+      { license: "4AJA41", name: "Ella Barry" },
+      { license: "LCH7314", name: "Kayla Palumbo" },
+      { license: "KHE1365", name: "Ava Sobel" },
+      { license: "DXL 3463", name: "Justine Watkins" },
+      { license: "LYG0503", name: "Sabine Ball" },
+      { license: "BV52627", name: "Billy Stammer" },
+      { license: "MAL", name: "Lawrence Han" },
+      { license: "LDC 2348", name: "Zach Jacobson" },
+      { license: "LWG2294", name: "Narayan Topalli" },
+      { license: "lld 2269", name: "Jake Altman" },
+      { license: "M31NEG", name: "Gabe Elkachouty" },
+      { license: "LWY 2959", name: "Aryan Shah" },
+      { license: "6EM8947", name: "Matthew Rosenstein" },
+      { license: "KJB2022", name: "Adyn Lavine" },
+      { license: "F86RPU", name: "Caden Ng" },
+      { license: "E5Z306", name: "Camden Richardson" },
+      { license: "EV25PY", name: "Andrew Juan" },
+      { license: "K68RUL", name: "Jake Frappier" },
+      { license: "JLP5565", name: "Sam Karmarkar" },
+      { license: "CZCY347", name: "Trevor Crouse" },
+      { license: "LXR7879", name: "Will Shapiro" },
+      { license: "086UOO", name: "Travis Zhou" },
+      { license: "DYL191", name: "Ethan Zhao" },
+      { license: "JDZ 160", name: "Alec Ranker" },
+      { license: "K67PSF", name: "Calvin Stern" },
+      { license: "KAM6510", name: "Nick Scanlon" },
+      { license: "3EAE23", name: "Avery" }
+    ];
+
+    function normalize(input) {
+      return input.trim().toUpperCase().replace(/\s+/g, '');
+    }
+
+    function checkLicense() {
+      const input = document.getElementById("licenseInput").value;
+      const normalizedInput = normalize(input);
+
+      const found = parkingData.find(
+        entry => normalize(entry.license) === normalizedInput
+      );
+
+      const resultDiv = document.getElementById("result");
+      if (found) {
+        resultDiv.textContent = `Valid license plate. Owner: ${found.name}`;
+        resultDiv.style.color = "green";
+      } else {
+        resultDiv.textContent = "Invalid license plate.";
+        resultDiv.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
