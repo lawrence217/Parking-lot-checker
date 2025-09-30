@@ -29,7 +29,7 @@
       font-size: 1.55rem;
       font-weight: 700;
       line-height: 2.1rem;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
       color: #232627;
       letter-spacing: -0.5px;
       align-self: center;
@@ -68,20 +68,6 @@
     .form-row button:hover {
       background: #0e567a;
     }
-    .feature-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #505458;
-      font-size: 1.05rem;
-      margin-bottom: 10px;
-      margin-top: 2px;
-      user-select: none;
-    }
-    .feature-row svg {
-      opacity: 0.7;
-      vertical-align: text-top;
-    }
     #result-box {
       width: 100%;
       border-radius: 7px;
@@ -105,14 +91,6 @@
       color: #187857;
       font-weight: 500;
     }
-    .history-link {
-      display: inline-block;
-      margin-top: 8px;
-      color: #1687b9;
-      text-decoration: underline;
-      font-size: 0.99rem;
-      cursor: pointer;
-    }
     @media (max-width: 500px) {
       .app-card { padding: 14px; }
       .app-card h2 { font-size: 1.12rem; line-height: 1.5rem; }
@@ -126,12 +104,7 @@
       <input type="text" id="licenseInput" placeholder="Enter License Plate Number" autocomplete="off" />
       <button onclick="checkLicense()">Validate</button>
     </div>
-    <div class="feature-row">
-      <svg height="18" width="18"><circle cx="9" cy="9" r="7" stroke="#a3adb9" stroke-width="2" fill="#ecf3f9"/></svg>
-      Scan Image
-    </div>
     <div id="result-box"></div>
-    <span class="history-link" onclick="alert('Feature coming soon!')">View Parking History</span>
   </div>
 
   <script>
@@ -166,7 +139,8 @@
       { license: "JDZ 160", name: "Alec Ranker" },
       { license: "K67PSF", name: "Calvin Stern" },
       { license: "KAM6510", name: "Nick Scanlon" },
-      { license: "3EAE23", name: "Avery" }
+      { license: "3EAE23", name: "Avery" },
+      { license: "9FL9629", name: "Zara Cheeks" }
     ];
 
     function normalize(input) {
