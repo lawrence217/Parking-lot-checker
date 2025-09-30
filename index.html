@@ -3,18 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Parking Lot License Plate Checker</title>
+  <title>Smart Parking License Plate Validator</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 2rem; }
-    input, button { font-size: 1rem; padding: 0.5rem; margin-right: 0.5rem; }
-    #result { margin-top: 1rem; font-weight: bold; }
+    body {
+      background: radial-gradient(circle at 60% 40%, #dae8ef 0%, #a1b7c9 100%);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .app-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      max-width: 410px;
+      width: 95%;
+      padding: 38px 32px 34px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .app-card h2 {
+      font-size: 1.55rem;
+      font-weight: 700;
+      line-height: 2.1rem;
+      margin-bottom: 30px;
+      color: #232627;
+      letter-spacing: -0.5px;
+      align-self: center;
+    }
+    .form-row {
+      display: flex;
+      width: 100%;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .form-row input {
+      flex: 1;
+      font-size: 1.08rem;
+      padding: 12px 12px;
+      border: 2px solid #c9dde7;
+      border-radius: 7px;
+      outline: none;
+      transition: border-color 0.2s;
+      background: #f9fcfd;
+    }
+    .form-row input:focus {
+      border-color: #34a2d1;
+    }
+    .form-row button {
+      background: #1687b9;
+      border: none;
+      color: #fff;
+      font-size: 1.08rem;
+      border-radius: 7px;
+      padding: 12px 28px;
+      font-weight: 600;
+      transition: background 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(52,162,209,0.07);
+    }
+    .form-row button:hover {
+      background: #0e567a;
+    }
+    .feature-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #505458;
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+      margin-top: 2px;
+      user-select: none;
+    }
+    .feature-row svg {
+      opacity: 0.7;
+      vertical-align: text-top;
+    }
+    #result-box {
+      width: 100%;
+      border-radius: 7px;
+      margin-top: 17px;
+      background: none;
+    }
+    .valid {
+      color: #217d30;
+      background: #e6f6e5;
+      border: 1.5px solid #b7e2b9;
+      padding: 13px 13px 8px 13px;
+    }
+    .invalid {
+      color: #bc2626;
+      background: #fde3e3;
+      border: 1.5px solid #fac5c5;
+      padding: 13px 13px 8px 13px;
+    }
+    .result-owner {
+      font-size: 1.04rem;
+      color: #187857;
+      font-weight: 500;
+    }
+    .history-link {
+      display: inline-block;
+      margin-top: 8px;
+      color: #1687b9;
+      text-decoration: underline;
+      font-size: 0.99rem;
+      cursor: pointer;
+    }
+    @media (max-width: 500px) {
+      .app-card { padding: 14px; }
+      .app-card h2 { font-size: 1.12rem; line-height: 1.5rem; }
+    }
   </style>
 </head>
 <body>
-  <h1>Parking Lot License Plate Checker</h1>
-  <input type="text" id="licenseInput" placeholder="Enter license plate" />
-  <button onclick="checkLicense()">Check</button>
-  <div id="result"></div>
+  <div class="app-card">
+    <h2>Smart Parking<br>License Plate Validator</h2>
+    <div class="form-row">
+      <input type="text" id="licenseInput" placeholder="Enter License Plate Number" autocomplete="off" />
+      <button onclick="checkLicense()">Validate</button>
+    </div>
+    <div class="feature-row">
+      <svg height="18" width="18"><circle cx="9" cy="9" r="7" stroke="#a3adb9" stroke-width="2" fill="#ecf3f9"/></svg>
+      Scan Image
+    </div>
+    <div id="result-box"></div>
+    <span class="history-link" onclick="alert('Feature coming soon!')">View Parking History</span>
+  </div>
 
   <script>
     const parkingData = [
@@ -59,17 +177,28 @@
       const input = document.getElementById("licenseInput").value;
       const normalizedInput = normalize(input);
 
-      const found = parkingData.find(
-        entry => normalize(entry.license) === normalizedInput
+      const found = parkingData.find(entry =>
+        normalize(entry.license) === normalizedInput
       );
+      const resultBox = document.getElementById("result-box");
 
-      const resultDiv = document.getElementById("result");
+      if (!input.trim()) {
+        resultBox.innerHTML = '';
+        resultBox.className = '';
+        return;
+      }
+
       if (found) {
-        resultDiv.textContent = `Valid license plate. Owner: ${found.name}`;
-        resultDiv.style.color = "green";
+        resultBox.innerHTML = `<div>
+          <span style="font-size:1.4em;vertical-align:-2px;">✅</span>
+          <span style="font-weight: 700">Valid license plate.</span>
+          <br><span class="result-owner">Owner: <span style="color:#187857">${found.name}</span></span>
+        </div>`;
+        resultBox.className = 'valid';
       } else {
-        resultDiv.textContent = "Invalid license plate.";
-        resultDiv.style.color = "red";
+        resultBox.innerHTML = `<span style="font-size:1.3em;vertical-align:-2px;">❌</span>
+          <span style="font-weight: 700">Invalid license plate.</span>`;
+        resultBox.className = 'invalid';
       }
     }
   </script>
